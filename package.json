@@ -1,0 +1,44 @@
+{
+  "name": "cloudmailin",
+  "version": "0.0.2",
+  "description": "Official Node.js for the CloudMailin Email API - https://www.cloudmailin.com",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "rm -rf ./dist && tsc",
+    "lint": "eslint ./src",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "rm -rf ./dist && tsc",
+    "docs": "rm -rf ./docs && typedoc ./src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cloudmailin/cloudmailin-js.git"
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "keywords": [
+    "cloudmailin",
+    "email",
+    "mail",
+    "smtp",
+    "send",
+    "headers",
+    "nodemailer"
+  ],
+  "author": "CloudMailin <support@cloudmailin.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cloudmailin/cloudmailin-js/issues"
+  },
+  "homepage": "https://github.com/cloudmailin/cloudmailin-js#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.15.1",
+    "@typescript-eslint/parser": "^4.15.1",
+    "eslint": "^7.20.0",
+    "typedoc": "^0.20.27",
+    "typescript": "^4.1.5"
+  }
+}
