@@ -1,5 +1,5 @@
 <a href="https://www.cloudmailin.com">
-  <img src="https://assets.cloudmailin.com/assets/favicon.png" alt="CloudMailin Logo" height="60" align="left" style="margin-right: 20px;" title="CloudMailin">
+  <img src="https://assets.cloudmailin.com/assets/favicon.png" alt="CloudMailin Logo" height="60" align="right" title="CloudMailin">
 </a>
 
 # CloudMailin Node.js Library
@@ -36,4 +36,27 @@ app.post("/incoming_mails/", (req, res) => {
 
   res.status(201).json(mail);
 }
+```
+
+### Sending Email
+
+```typescript
+import { MessageClient } from "cloudmailin"
+
+const client = new MessageClient({ username: USERNAME, apiKey: API_KEY});
+const response = await client.sendMessage({
+  to: 'test@example.net',
+  from: 'test@example.com',
+  plain: 'test message',
+  html:  '<h1>Test Message</h1>',
+  subject: "hello world"
+});
+```
+
+## Development
+
+Generating the OpenAPI reference:
+
+```sh
+npx openapi-typescript ./path_to/api.yaml --output ./src/models/cloudmailin-api.ts
 ```

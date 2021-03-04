@@ -2,7 +2,7 @@
  * An interface to help with receiving CloudMailin inbound HTTP POSTs
  * This relies on the JSON Normalized format
  */
-export default interface IncomingMail {
+export interface IncomingMail {
   headers: IncomingHeaderObject;
 
   /**
