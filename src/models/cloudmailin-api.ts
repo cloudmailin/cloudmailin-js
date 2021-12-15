@@ -27,6 +27,13 @@ export interface components {
        */
       to: string[] | string;
       /**
+       * A CC addrress used to copy the email message to a recipient.
+       * This is the address to be used in the SMTP transaction itself.
+       * This must match a `CC:` header in the email headers.
+       * A To: Recipient must also be present to use CC.
+       */
+      cc?: string[] | string;
+      /**
        * Whether to send this message in test mode.
        * This will validate the messge but no actually send it if true.
        * If the server is in test mode then it will always be in test mode
@@ -35,7 +42,7 @@ export interface components {
       test_mode?: boolean;
       /** The subject of the email. This will override any subject set in headers or raw messages. */
       subject?: string;
-      /** Tags to */
+      /** Tags that help filter the messages within the dashboard */
       tags?: string[] | string;
     };
     Message: components["schemas"]["MessageCommon"] & {
@@ -50,12 +57,26 @@ export interface components {
        */
       html?: string;
       headers?: { [key: string]: string };
+      priority?: "standard" | "priority" | "digest";
       attachments?: components["schemas"]["MessageAttachment"][];
     };
     MessageAttachment: {
+      /** The file name of the attachment */
       file_name: string;
+      /**
+       * The Base64 encoded representation of the content.
+       * This shouldn't contain newlines within JSON.
+       */
       content: string;
+      /** The mime content type of the file such as `image/jpeg` */
       content_type: string;
+      /**
+       * An optional content identifier.
+       * This is used to mark the attachment as inline and would allow inline display of the
+       * attachment within the html content.
+       * Within the HTML render an image tag for example with cid:
+       * <img src="cid:logo" alt="Logo" />
+       */
       content_id?: string;
     };
     RawMessage: components["schemas"]["MessageCommon"] & {
