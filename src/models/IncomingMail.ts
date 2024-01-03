@@ -54,16 +54,18 @@ export interface IncomingSPFObject {
 interface baseAttachment {
   file_name: string;
   content_type: string;
-  size: BigInt;
+  size: number;
   disposition: "attachment" | "inline";
 }
 
 interface URLAttachment extends baseAttachment {
+  _attachmentType : 'url';
   /** URL where the file is stored */
   url: string;
 }
 
 interface EmbeddedAttachment extends baseAttachment {
+  _attachmentType : 'embedded';
   /** Base64 encoded attachment content newline characters may be present and should be ignored. */
   content: string;
 }
