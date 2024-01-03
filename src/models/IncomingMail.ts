@@ -51,20 +51,20 @@ export interface IncomingSPFObject {
  * within the content parameters of an embedded attachment. When using an attachment
  * store the URL to the file location will be passed.
  */
-export interface IncomingAttachment {
+interface baseAttachment {
   file_name: string;
   content_type: string;
-  size: number;
-  disposition?: string;
-  content_id?: string;
-
-  /**
-   * Base64 encoded attachment content newline characters may be present and should be ignored.
-   */
-  content?: string;
-
-  /**
-   * URL where the file is stored
-   */
-  url?: string;
+  size: BigInt;
+  disposition: "attachment" | "inline";
 }
+
+interface URLAttachment extends baseAttachment {
+  /** URL where the file is stored */
+  url: string;
+}
+
+interface EmbeddedAttachment extends baseAttachment {
+  /** Base64 encoded attachment content newline characters may be present and should be ignored. */
+  content: string;
+}
+export type IncomingAttachment = URLAttachment | EmbeddedAttachment;
