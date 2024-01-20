@@ -23,8 +23,8 @@ export default class MessageClient {
     this.version = version;
     this.options = options;
 
-    this.options.host = this.options.host || "api.cloudmailin.com";
-    this.options.baseURL = this.options.baseURL || `https://${this.options.host}/api/v0.1`;
+    this.options.host = this.options.host ?? "api.cloudmailin.com";
+    this.options.baseURL = this.options.baseURL ?? `https://${this.options.host}/api/v0.1`;
   }
 
   public sendMessage(message: Message): Promise<MessageResponse> {
@@ -53,16 +53,7 @@ export default class MessageClient {
   }
 
   private handleError(error: AxiosError) {
-    const response = error.response;
-    const status = response?.status;
-
-    switch (status) {
-      case 422:
-        return new errors.CloudMailinError(error.message, error);
-
-      default:
-        return new errors.CloudMailinError(error.message, error);
-    }
+    return new errors.CloudMailinError(error.message, error);
   }
 
   private makeClient() {

@@ -1,14 +1,14 @@
 import MessageClient, { MessageClientOptions } from "./messageClient";
 
-import { Errors } from "./models"
-import { IncomingMail } from "./models";
-import { Message, MessageRaw } from "./models"
+import { CloudMailinError } from "./models/errors"
+import { IncomingMail } from "./models/IncomingMail";
+import { Message, MessageRaw } from "./models/message"
 
 export * as Models from "./models"
 
 export {
   MessageClient, MessageClientOptions,
-  Errors,
+  CloudMailinError as Errors,
   IncomingMail,
   Message, MessageRaw
 };

@@ -3,13 +3,13 @@
  * Do not make direct changes to the file.
  */
 
-export interface paths {
+export interface Paths {
   "/messages": {
-    post: operations["sendMessage"];
+    post: Operations["sendMessage"];
   };
 }
 
-export interface components {
+export interface Components {
   schemas: {
     MessageCommon: {
       id?: string;
@@ -38,7 +38,7 @@ export interface components {
       /** Tags to */
       tags?: string[] | string;
     };
-    Message: components["schemas"]["MessageCommon"] & {
+    Message: Components["schemas"]["MessageCommon"] & {
       /**
        * The plain text part of the email message.
        * Either the plain text or the html parts are required.
@@ -50,7 +50,7 @@ export interface components {
        */
       html?: string;
       headers?: { [key: string]: string };
-      attachments?: components["schemas"]["MessageAttachment"][];
+      attachments?: Components["schemas"]["MessageAttachment"][];
     };
     MessageAttachment: {
       file_name: string;
@@ -58,7 +58,7 @@ export interface components {
       content_type: string;
       content_id?: string;
     };
-    RawMessage: components["schemas"]["MessageCommon"] & {
+    RawMessage: Components["schemas"]["MessageCommon"] & {
       /**
        * A full raw email.
        * This should consist of both headers and a message body.
@@ -101,50 +101,50 @@ export interface components {
     /** The user is not Authorized */
     401: {
       content: {
-        "application/json": components["schemas"]["UnauthorizedError"];
+        "application/json": Components["schemas"]["UnauthorizedError"];
       };
     };
     /** The user is not Authorized */
     403: {
       content: {
-        "application/json": components["schemas"]["ForbiddenError"];
+        "application/json": Components["schemas"]["ForbiddenError"];
       };
     };
     /** Resource be found or does not belong to this account */
     404: {
       content: {
-        "application/json": components["schemas"]["NotFoundError"];
+        "application/json": Components["schemas"]["NotFoundError"];
       };
     };
     /** Unprocessable Entity, most likely your input does not pass validation */
     422: {
       content: {
-        "application/json": components["schemas"]["UnprocessableEntityError"];
+        "application/json": Components["schemas"]["UnprocessableEntityError"];
       };
     };
   };
   parameters: {
-    accountID: components["schemas"]["accountID"];
+    accountID: Components["schemas"]["accountID"];
   };
 }
 
-export interface operations {
+export interface Operations {
   sendMessage: {
     responses: {
       /** The message has been accepted */
       202: {
         content: {
-          "application/json": components["schemas"]["MessageCommon"];
+          "application/json": Components["schemas"]["MessageCommon"];
         };
       };
-      401: components["responses"]["401"];
-      422: components["responses"]["422"];
+      401: Components["responses"]["401"];
+      422: Components["responses"]["422"];
     };
     requestBody: {
       content: {
         "application/json":
-          | components["schemas"]["Message"]
-          | components["schemas"]["RawMessage"];
+          | Components["schemas"]["Message"]
+          | Components["schemas"]["RawMessage"];
       };
     };
   };

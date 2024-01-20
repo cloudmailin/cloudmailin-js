@@ -1,5 +1,5 @@
-import { components } from "./cloudmailin-api";
+import { Components } from "./cloudmailin-api";
 
-export type Message = components['schemas']['Message'];
-export type MessageRaw = components['schemas']['RawMessage'];
-export type MessageResponse = components['schemas']['MessageCommon'];
+export type Message = Components['schemas']['Message'];
+export type MessageRaw = Components['schemas']['RawMessage'];
+export type MessageResponse = Components['schemas']['MessageCommon'];

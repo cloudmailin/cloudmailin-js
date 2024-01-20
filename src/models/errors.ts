@@ -6,7 +6,8 @@ export class CloudMailinError extends Error {
   public details: string;
 
   constructor(message: string, baseError: AxiosError) {
-    const trueMessage = baseError.response?.data?.error || message;
+    // @ts-expect-error error is type any. not sure how to fix this one
+    const trueMessage = baseError.response?.data?.error ?? message;
     super(trueMessage);
 
     this.details = trueMessage;

@@ -35,7 +35,7 @@ describe("sendMessage", () => {
         plain: 'test message',
         subject: "hello world"
       });
-    }).rejects.toThrowError(cloudmailin.Errors.CloudMailinError);
+    }).rejects.toThrow(cloudmailin.Errors);
   });
 
   test("raises an error containing the remote error", async () => {
@@ -45,7 +45,7 @@ describe("sendMessage", () => {
         to: 'recipient@example.com',
         from: 'from@example.net',
       });
-    }).rejects.toThrowError(/body not found/i);
+    }).rejects.toThrow(/body not found/i);
   });
 
   test("raises a UnprocessableEntity error", async () => {
@@ -55,6 +55,6 @@ describe("sendMessage", () => {
         to: 'recipient@example.com',
         from: 'from@example.net',
       });
-    }).rejects.toThrowError(cloudmailin.Errors.CloudMailinError);
+    }).rejects.toThrow(cloudmailin.Errors);
   });
 });
