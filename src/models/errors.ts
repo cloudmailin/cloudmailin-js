@@ -1,11 +1,14 @@
 import { AxiosError } from "axios";
+import { components } from "./cloudmailin-api";
+
+export type CloudMailinErrorResponse = components['schemas']['Error'];
 
 export class CloudMailinError extends Error {
   public baseError: Error;
   public status?: number;
   public details: string;
 
-  constructor(message: string, baseError: AxiosError) {
+  constructor(message: string, baseError: AxiosError<CloudMailinErrorResponse>) {
     const trueMessage = baseError.response?.data?.error || message;
     super(trueMessage);
 
