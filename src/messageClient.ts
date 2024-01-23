@@ -52,17 +52,10 @@ export default class MessageClient {
       });
   }
 
-  private handleError(error: AxiosError) {
-    const response = error.response;
-    const status = response?.status;
-
-    switch (status) {
-      case 422:
-        return new errors.CloudMailinError(error.message, error);
-
-      default:
-        return new errors.CloudMailinError(error.message, error);
-    }
+  // Wrap the error in our own error class, in future we may have
+  // more specific errors for different types of error.
+  private handleError(error: AxiosError<errors.CloudMailinErrorResponse>) {
+    return new errors.CloudMailinError(error.message, error);
   }
 
   private makeClient() {

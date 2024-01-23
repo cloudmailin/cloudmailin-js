@@ -35,7 +35,7 @@
   "homepage": "https://www.cloudmailin.com",
   "readme": "https://github.com/cloudmailin/cloudmailin-js#readme",
   "dependencies": {
-    "axios": "^0.21.4"
+    "axios": "^1.0.0"
   },
   "devDependencies": {
     "@types/jest": "^26.0.20",
