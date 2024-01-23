@@ -1,6 +1,6 @@
 {
   "name": "cloudmailin",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Official Node.js for the CloudMailin Email API - https://www.cloudmailin.com",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
