@@ -112,3 +112,6 @@ dist
 
 # For now
 docs
+
+# Don't re-publish the API
+api.yml
