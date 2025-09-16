@@ -7,10 +7,85 @@ import axios, { AxiosError, AxiosRequestConfig } from "axios";
 const { version } = require("../package.json");
 
 export interface MessageClientOptions {
-  username: string,
-  apiKey: string;
+  username?: string,
+  apiKey?: string;
   host?: string;
   baseURL?: string;
+  smtpUrl?: string;
+}
+
+interface ParsedSMTPUrl {
+  username: string;
+  apiKey: string;
+}
+
+/**
+ * Parses a CloudMailin SMTP URL to extract username and API key
+ * @param smtpUrl - URL in format: smtp://username:apikey@host:port?params
+ * @returns Parsed username and API key
+ */
+function parseSMTPUrl(smtpUrl: string): ParsedSMTPUrl {
+  try {
+    const url = new URL(smtpUrl);
+    const username = url.username;
+    const apiKey = url.password;
+
+    if (!username || !apiKey) {
+      throw new Error('Username and API key are required in the SMTP URL');
+    }
+
+    return { username, apiKey };
+  } catch (error) {
+    throw new Error(`Failed to parse CLOUDMAILIN_SMTP_URL: ${error instanceof Error ? error.message : 'Unknown error'}`);
+  }
+}
+
+/**
+ * Creates MessageClientOptions from environment variables or provided options
+ * @param options - Optional MessageClientOptions
+ * @returns MessageClientOptions with values from options or environment
+ */
+function createOptions(options?: MessageClientOptions): MessageClientOptions {
+  // If options are provided and have both required fields, use them
+  if (options?.username && options?.apiKey) {
+    return {
+      username: options.username,
+      apiKey: options.apiKey,
+      host: options.host,
+      baseURL: options.baseURL
+    };
+  }
+
+  // If smtpUrl is provided in options, use it
+  if (options?.smtpUrl) {
+    const parsed = parseSMTPUrl(options.smtpUrl);
+    return {
+      username: parsed.username,
+      apiKey: parsed.apiKey,
+      host: options.host,
+      baseURL: options.baseURL
+    };
+  }
+
+  // If partial options are provided but missing required fields, throw error
+  if (options && (options.username || options.apiKey)) {
+    throw new Error('Either provide MessageClientOptions with username and apiKey, or provide smtpUrl option, or set CLOUDMAILIN_SMTP_URL environment variable');
+  }
+
+  // Otherwise, try to parse from environment variable
+  const smtpUrl = process.env.CLOUDMAILIN_SMTP_URL;
+  if (!smtpUrl) {
+    throw new Error('Either provide MessageClientOptions with username and apiKey, or provide smtpUrl option, or set CLOUDMAILIN_SMTP_URL environment variable');
+  }
+
+  const parsed = parseSMTPUrl(smtpUrl);
+
+  return {
+    username: parsed.username,
+    apiKey: parsed.apiKey,
+    host: options?.host,
+    baseURL: options?.baseURL
+  };
 }
 
 type requestMethod = AxiosRequestConfig['method'];
@@ -19,9 +94,9 @@ export default class MessageClient {
   private options: MessageClientOptions;
   private version: string;
 
-  constructor(options: MessageClientOptions) {
+  constructor(options?: MessageClientOptions) {
     this.version = version;
-    this.options = options;
+    this.options = createOptions(options);
 
     this.options.host = this.options.host || "api.cloudmailin.com";
     this.options.baseURL = this.options.baseURL || `https://${this.options.host}/api/v0.1`;

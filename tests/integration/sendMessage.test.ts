@@ -4,15 +4,13 @@ import { MessageClientOptions } from "../../src/messageClient"
 const UUID = /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
 
 describe("sendMessage", () => {
+  // This will fall back to CLOUDMAILIN_SMTP_URL environment variable
+  // if these credentials are not set.
   const credentials = <MessageClientOptions>{
     username: process.env.MESSAGE_USERNAME,
     apiKey: process.env.MESSAGE_API_KEY,
     baseURL: process.env.MESSAGE_BASE_URL
   };
-
-  if (!(credentials.username && credentials.apiKey && credentials.baseURL)) {
-    throw new Error("Test credentials are required");
-  }
 
   test("returns an ID for a successful send", async () => {
     const client = new cloudmailin.MessageClient(credentials);
@@ -27,7 +25,7 @@ describe("sendMessage", () => {
   });
 
   test("raises a 401 error when passing invalid credentials", async () => {
-    const client = new cloudmailin.MessageClient({ ...credentials, apiKey: 'foo' });
+    const client = new cloudmailin.MessageClient({ ...credentials, username: 'foo', apiKey: 'foo' });
     await expect(async () => {
       await client.sendMessage({
         to: 'recipient@example.com',
@@ -35,7 +33,7 @@ describe("sendMessage", () => {
         plain: 'test message',
         subject: "hello world"
       });
-    }).rejects.toThrowError(cloudmailin.Errors.CloudMailinError);
+    }).rejects.toThrow(cloudmailin.Errors.CloudMailinError);
   });
 
   test("raises an error containing the remote error", async () => {
@@ -45,7 +43,7 @@ describe("sendMessage", () => {
         to: 'recipient@example.com',
         from: 'from@example.net',
       });
-    }).rejects.toThrowError(/body not found/i);
+    }).rejects.toThrow(/body not found/i);
   });
 
   test("raises a UnprocessableEntity error", async () => {
@@ -55,6 +53,6 @@ describe("sendMessage", () => {
         to: 'recipient@example.com',
         from: 'from@example.net',
       });
-    }).rejects.toThrowError(cloudmailin.Errors.CloudMailinError);
+    }).rejects.toThrow(cloudmailin.Errors.CloudMailinError);
   });
 });
