@@ -32,3 +32,4 @@ jobs:
         MESSAGE_USERNAME: ${{ secrets.MESSAGE_USERNAME }}
         MESSAGE_API_KEY: ${{ secrets.MESSAGE_API_KEY }}
         MESSAGE_BASE_URL: ${{ secrets.MESSAGE_BASE_URL }}
+        CLOUDMAILIN_SMTP_URL: ${{ secrets.CLOUDMAILIN_SMTP_URL }}
