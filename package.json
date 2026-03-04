@@ -52,5 +52,8 @@
   "jest": {
     "verbose": true,
     "preset": "ts-jest"
+  },
+  "overrides": {
+    "minimatch": "^9.0.7"
   }
 }
