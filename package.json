@@ -57,6 +57,7 @@
     "preset": "ts-jest"
   },
   "overrides": {
-    "minimatch": "^9.0.7"
+    "minimatch": "^9.0.7",
+    "follow-redirects": "^1.16.0"
   }
 }
