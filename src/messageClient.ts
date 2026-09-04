@@ -3,7 +3,7 @@ import * as errors from "./models/errors";
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 
 // Allow us to easily fetch the current version from the package without hacks
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const { version } = require("../package.json");
 
 export interface MessageClientOptions {
@@ -111,7 +111,6 @@ export default class MessageClient {
   }
 
   // Allow body to be anything
-  // eslint-disable-next-line @typescript-eslint/ban-types
   private makeRequest<T>(method: requestMethod, path: string, body?: object): Promise<T> {
     const client = this.makeClient();
 
